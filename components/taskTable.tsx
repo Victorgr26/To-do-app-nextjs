@@ -2,12 +2,14 @@ import { DarkThemeToggle } from "flowbite-react";
 import React from "react";
 import { Button } from "flowbite-react";
 import { DatePicker } from "./DatePicker";
+import { SearchBar } from "./searchbar";
 
 const TaskTable = () => {
   return (
     <div className="size-full overflow-x-auto shadow-md sm:rounded-lg">
-      <div className="m-1 w-1/4">
+      <div className="m-2 flex items-center justify-between">
         <DatePicker />
+        <SearchBar />
       </div>
       <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
         <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">

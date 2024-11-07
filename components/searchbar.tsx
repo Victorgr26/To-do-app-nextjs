@@ -1,7 +1,7 @@
 import React from "react";
-const SearchBar: React.FC = () => {
+export function SearchBar() {
   return (
-    <form className="mx-auto max-w-md">
+    <form className="mx-1 w-1/2 max-w-lg">
       <label
         htmlFor="default-search"
         className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -42,6 +42,4 @@ const SearchBar: React.FC = () => {
       </div>
     </form>
   );
-};
-
-export default SearchBar;
+}
