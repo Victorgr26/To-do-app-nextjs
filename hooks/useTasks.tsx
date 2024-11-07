@@ -31,14 +31,32 @@ const useTasks = () => {
     fetchTasks();
   }, []);
 
-  const addTask = (task: string) => {
+  const addTask = async (task: string) => {
     const newTask = {
-      id: Date.now(),
       task,
       status: false,
       date: new Date().toISOString(),
     };
-    setTasks([...tasks, newTask]);
+
+    try {
+      const response = await fetch("/api/add-task", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTask),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error adding task: ${errorText}`);
+      }
+
+      const addedTask = await response.json();
+      setTasks([addedTask, ...tasks]); // Add the new task to the top of the list
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const editTask = (id: number, task: string): void => {
@@ -47,7 +65,7 @@ const useTasks = () => {
   };
 
   const saveTask = async (id: number): Promise<void> => {
-    await fetch(`/api/tasks/${id}`, {
+    await fetch(`/api/update-task?id=${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -62,6 +80,23 @@ const useTasks = () => {
     setEditingTaskId(null);
   };
 
+  const deleteTask = async (id: number): Promise<void> => {
+    try {
+      const response = await fetch(`/api/delete-task?id=${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error deleting task: ${errorText}`);
+      }
+
+      setTasks(tasks.filter((task) => task.id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     tasks,
     addTask,
@@ -69,6 +104,7 @@ const useTasks = () => {
     editedTask,
     editTask,
     saveTask,
+    deleteTask,
     setEditedTask,
   };
 };

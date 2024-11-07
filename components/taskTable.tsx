@@ -14,6 +14,7 @@ const TaskTable = () => {
     editedTask,
     editTask,
     saveTask,
+    deleteTask,
     setEditedTask,
   } = useTasks();
 
@@ -62,9 +63,7 @@ const TaskTable = () => {
                   <label
                     htmlFor={`checkbox-table-search-${task.id}`}
                     className="sr-only"
-                  >
-                    checkbox
-                  </label>
+                  ></label>
                 </div>
               </td>
               <th
@@ -90,7 +89,12 @@ const TaskTable = () => {
               </td>
               <td className="px-6 py-4">{task.date}</td>
               <td className="flex items-center justify-end px-2 py-4 text-right">
-                <Button size="xs" color="failure" className="ml-2">
+                <Button
+                  size="xs"
+                  color="failure"
+                  className="ml-2"
+                  onClick={() => deleteTask(task.id)}
+                >
                   Delete
                 </Button>
               </td>

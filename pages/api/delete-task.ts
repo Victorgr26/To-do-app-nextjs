@@ -26,33 +26,31 @@ async function connectToDatabase() {
   return client;
 }
 
-export default async function addTask(
+export default async function deleteTask(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", ["POST"]);
+  if (req.method !== "DELETE") {
+    res.setHeader("Allow", ["DELETE"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { task, status, date } = req.body;
-
-  if (
-    typeof task !== "string" ||
-    typeof status !== "boolean" ||
-    typeof date !== "string"
-  ) {
-    return res.status(400).json({ error: "Invalid data format" });
-  }
+  const { id } = req.query;
 
   try {
     const client = await connectToDatabase();
     const result = await client.query(
-      "INSERT INTO todo (task, status, date) VALUES ($1, $2, $3) RETURNING *",
-      [task, status, date],
+      "DELETE FROM todo WHERE id = $1 RETURNING *",
+      [id],
     );
-    res.status(201).json(result.rows[0]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
+    return res.status(200).json(result.rows[0]);
   } catch (error) {
-    res.status(500).json({ error: "Failed to add task" });
+    console.error("Error deleting task:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
