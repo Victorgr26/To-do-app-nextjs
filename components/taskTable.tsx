@@ -7,7 +7,19 @@ import { DarkThemeToggle } from "flowbite-react";
 import useTasks from "../hooks/useTasks";
 
 const TaskTable = () => {
-  const { tasks, addTask } = useTasks();
+  const {
+    tasks,
+    addTask,
+    editingTaskId,
+    editedTask,
+    editTask,
+    saveTask,
+    setEditedTask,
+  } = useTasks();
+
+  const handleBlur = (id: number) => {
+    saveTask(id);
+  };
 
   return (
     <div className="size-full overflow-x-auto shadow-md sm:rounded-lg">
@@ -59,16 +71,25 @@ const TaskTable = () => {
                 scope="row"
                 className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
               >
-                {task.task}
+                {editingTaskId === task.id ? (
+                  <input
+                    type="text"
+                    value={editedTask}
+                    onChange={(e) => setEditedTask(e.target.value)}
+                    onBlur={() => handleBlur(task.id)}
+                    autoFocus
+                  />
+                ) : (
+                  <span onClick={() => editTask(task.id, task.task)}>
+                    {task.task}
+                  </span>
+                )}
               </th>
               <td className="px-6 py-4">
                 {task.status ? "Completed" : "Pending"}
               </td>
               <td className="px-6 py-4">{task.date}</td>
               <td className="flex items-center justify-end px-2 py-4 text-right">
-                <Button size="xs" color="blue" className="mr-2">
-                  Edit
-                </Button>
                 <Button size="xs" color="failure" className="ml-2">
                   Delete
                 </Button>

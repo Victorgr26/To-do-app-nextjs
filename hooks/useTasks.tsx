@@ -9,8 +9,11 @@ interface Task {
 
 const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
+  const [editedTask, setEditedTask] = useState<string>("");
 
   useEffect(() => {
+    // Fetch tasks from the API
     const fetchTasks = async () => {
       try {
         const response = await fetch("/api/get-task");
@@ -21,42 +24,53 @@ const useTasks = () => {
         const data = await response.json();
         setTasks(data);
       } catch (error) {
-        console.error("Error fetching tasks:", error);
+        console.error(error);
       }
     };
 
     fetchTasks();
   }, []);
 
-  const addTask = async (taskDescription: string) => {
+  const addTask = (task: string) => {
     const newTask = {
-      id: tasks.length + 1,
-      task: taskDescription,
+      id: Date.now(),
+      task,
       status: false,
-      date: new Date().toISOString().split("T")[0], // Ensure date is in YYYY-MM-DD format
+      date: new Date().toISOString(),
     };
-
-    try {
-      const response = await fetch("/api/add-task", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newTask),
-      });
-
-      if (response.ok) {
-        setTasks((prevTasks) => [...prevTasks, newTask]);
-      } else {
-        const errorText = await response.text();
-        console.error(`Failed to add task: ${errorText}`);
-      }
-    } catch (error) {
-      console.error("Error adding task:", error);
-    }
+    setTasks([...tasks, newTask]);
   };
 
-  return { tasks, addTask };
+  const editTask = (id: number, task: string): void => {
+    setEditingTaskId(id);
+    setEditedTask(task);
+  };
+
+  const saveTask = async (id: number): Promise<void> => {
+    await fetch(`/api/tasks/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ task: editedTask }),
+    });
+
+    const taskIndex = tasks.findIndex((task) => task.id === id);
+    if (taskIndex !== -1) {
+      tasks[taskIndex].task = editedTask;
+    }
+    setEditingTaskId(null);
+  };
+
+  return {
+    tasks,
+    addTask,
+    editingTaskId,
+    editedTask,
+    editTask,
+    saveTask,
+    setEditedTask,
+  };
 };
 
 export default useTasks;
