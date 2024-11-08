@@ -6,21 +6,21 @@ const useTasks = () => {
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
   const [editedTask, setEditedTask] = useState<string>("");
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch("/api/get-task");
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Error fetching tasks: ${errorText}`);
-        }
-        const data = await response.json();
-        setTasks(data);
-      } catch (error) {
-        console.error(error);
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch("/api/get-task");
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error fetching tasks: ${errorText}`);
       }
-    };
+      const data = await response.json();
+      setTasks(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
     fetchTasks();
   }, []);
 
@@ -77,6 +77,7 @@ const useTasks = () => {
       setTasks((prevTasks) =>
         prevTasks.map((task) => (task.id === id ? updatedTask : task)),
       );
+      await fetchTasks();
     } catch (error) {
       console.error(error);
     }
