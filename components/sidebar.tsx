@@ -18,25 +18,13 @@ export function SidebarNavigation() {
             <Sidebar.Item href="#" icon={HiChartPie}>
               Dashboard
             </Sidebar.Item>
-            <Sidebar.Collapse icon={HiShoppingBag} label="E-commerce">
-              <Sidebar.Item href="#">Products</Sidebar.Item>
-              <Sidebar.Item href="#">Sales</Sidebar.Item>
-              <Sidebar.Item href="#">Refunds</Sidebar.Item>
-              <Sidebar.Item href="#">Shipping</Sidebar.Item>
-            </Sidebar.Collapse>
-            <Sidebar.Item href="#" icon={HiInbox}>
-              Inbox
+            <Sidebar.Item href="/404" icon={HiInbox}>
+              404
             </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiUser}>
-              Users
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiShoppingBag}>
-              Products
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiArrowSmRight}>
+            <Sidebar.Item href="/signin" icon={HiArrowSmRight}>
               Sign In
             </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiTable}>
+            <Sidebar.Item href="/signup" icon={HiTable}>
               Sign Up
             </Sidebar.Item>
           </Sidebar.ItemGroup>

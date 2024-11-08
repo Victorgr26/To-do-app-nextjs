@@ -13,7 +13,6 @@ const useTasks = () => {
   const [editedTask, setEditedTask] = useState<string>("");
 
   useEffect(() => {
-    // Fetch tasks from the API
     const fetchTasks = async () => {
       try {
         const response = await fetch("/api/get-task");

@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Button } from "flowbite-react";
-import { DatePicker } from "./datePicker";
 import { SearchBar } from "./searchbar";
 import { DarkThemeToggle } from "flowbite-react";
 import useTasks from "../hooks/useTasks";
@@ -36,7 +35,6 @@ const TaskTable = () => {
   return (
     <div className="size-full overflow-x-auto shadow-md sm:rounded-lg">
       <div className="m-2 flex items-center justify-between">
-        <DatePicker />
         <SearchBar tasks={tasks} onSearchResults={handleSearchResults} />
         <div className="m-5 flex justify-end">
           <Button size="sm" onClick={() => addTask("New task")} color="success">
@@ -55,7 +53,7 @@ const TaskTable = () => {
             <th scope="col" className="px-6 py-3">
               Status
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-4 py-3">
               Date
             </th>
             <th scope="col" className="px-6 py-3 text-right">
@@ -67,7 +65,7 @@ const TaskTable = () => {
           {filteredTasks.map((task) => (
             <tr
               key={task.id}
-              className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
+              className="border-b  bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
             >
               <td className="w-4 p-4">
                 <div className="flex items-center">
@@ -79,9 +77,7 @@ const TaskTable = () => {
                   <label
                     htmlFor={`checkbox-table-search-${task.id}`}
                     className="sr-only"
-                  >
-                    checkbox
-                  </label>
+                  ></label>
                 </div>
               </td>
               <th
@@ -90,7 +86,7 @@ const TaskTable = () => {
               >
                 {editingTaskId === task.id ? (
                   <input
-                    className="block w-full rounded-md border border-gray-300 bg-gray-50 p-1.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
+                    className="w-fullS block w-60 min-w-full rounded-md border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
                     type="text"
                     value={editedTask}
                     onChange={(e) => setEditedTask(e.target.value)}
@@ -99,22 +95,21 @@ const TaskTable = () => {
                   />
                 ) : (
                   <span
-                    className="block w-full cursor-pointer rounded-md bg-blue-100/50 p-1.5 hover:bg-blue-100 dark:bg-[#374151] dark:hover:bg-[#1f2937]"
+                    className="block w-60 min-w-full cursor-pointer rounded-md bg-blue-100/50 p-2 hover:bg-blue-100 dark:bg-[#374151] dark:hover:bg-[#1f2937]"
                     onClick={() => editTask(task.id, task.task)}
                   >
                     {task.task}
                   </span>
                 )}
               </th>
-              <td className="px-6 py-4">
+              <td className="max-w-0 px-6 py-4">
                 {task.status ? "Completed" : "Pending"}
               </td>
-              <td className="px-6 py-4">{task.date}</td>
-              <td className="flex items-center justify-end px-2 py-4 text-right">
+              <td className="max-w-10 p-4">{task.date}</td>
+              <td className=" flex items-center justify-end px-5 py-4 text-right">
                 <Button
-                  size="xs"
+                  size="sm"
                   color="failure"
-                  className="ml-2"
                   onClick={() => deleteTask(task.id)}
                 >
                   Delete
