@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
-
-interface Task {
-  id: number;
-  task: string;
-  status: boolean;
-  date: string;
-}
+import { Task } from "../types";
 
 const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -63,18 +57,28 @@ const useTasks = () => {
     setEditedTask(task);
   };
 
-  const saveTask = async (id: number): Promise<void> => {
-    await fetch(`/api/update-task?id=${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ task: editedTask }),
-    });
+  const saveTask = async (id: number, updates: Partial<Task>) => {
+    try {
+      const existingTask = tasks.find((task) => task.id === id);
+      const response = await fetch(`/api/update-task?id=${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...existingTask, ...updates }),
+      });
 
-    const taskIndex = tasks.findIndex((task) => task.id === id);
-    if (taskIndex !== -1) {
-      tasks[taskIndex].task = editedTask;
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error updating task: ${errorText}`);
+      }
+
+      const updatedTask = await response.json();
+      setTasks((prevTasks) =>
+        prevTasks.map((task) => (task.id === id ? updatedTask : task)),
+      );
+    } catch (error) {
+      console.error(error);
     }
     setEditingTaskId(null);
   };

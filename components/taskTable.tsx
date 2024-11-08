@@ -29,7 +29,15 @@ const TaskTable = () => {
   };
 
   const handleBlur = (id: number) => {
-    saveTask(id);
+    saveTask(id, { task: editedTask });
+  };
+
+  const handleStatusChange = async (task: Task) => {
+    const updatedTask = { ...task, status: !task.status };
+    await saveTask(task.id, { status: updatedTask.status });
+    setFilteredTasks((prevTasks) =>
+      prevTasks.map((t) => (t.id === task.id ? updatedTask : t)),
+    );
   };
 
   return (
@@ -65,7 +73,7 @@ const TaskTable = () => {
           {filteredTasks.map((task) => (
             <tr
               key={task.id}
-              className="border-b  bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
+              className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
             >
               <td className="w-4 p-4">
                 <div className="flex items-center">
@@ -73,6 +81,8 @@ const TaskTable = () => {
                     id={`checkbox-table-search-${task.id}`}
                     type="checkbox"
                     className="size-4 rounded border-gray-300 bg-gray-100 text-green-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800"
+                    checked={task.status}
+                    onChange={() => handleStatusChange(task)}
                   />
                   <label
                     htmlFor={`checkbox-table-search-${task.id}`}
@@ -86,7 +96,7 @@ const TaskTable = () => {
               >
                 {editingTaskId === task.id ? (
                   <input
-                    className="w-fullS block w-60 min-w-full rounded-md border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
+                    className="block w-60 min-w-full rounded-md border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
                     type="text"
                     value={editedTask}
                     onChange={(e) => setEditedTask(e.target.value)}
@@ -106,7 +116,7 @@ const TaskTable = () => {
                 {task.status ? "Completed" : "Pending"}
               </td>
               <td className="max-w-10 p-4">{task.date}</td>
-              <td className=" flex items-center justify-end px-5 py-4 text-right">
+              <td className="flex items-center justify-end px-5 py-4 text-right">
                 <Button
                   size="sm"
                   color="failure"
