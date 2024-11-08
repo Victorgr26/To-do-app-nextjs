@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "flowbite-react";
 import { DatePicker } from "./datePicker";
 import { SearchBar } from "./searchbar";
 import { DarkThemeToggle } from "flowbite-react";
 import useTasks from "../hooks/useTasks";
+import { Task } from "../types";
 
 const TaskTable = () => {
   const {
@@ -18,6 +19,16 @@ const TaskTable = () => {
     setEditedTask,
   } = useTasks();
 
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
+
+  useEffect(() => {
+    setFilteredTasks(tasks);
+  }, [tasks]);
+
+  const handleSearchResults = (results: Task[]) => {
+    setFilteredTasks(results);
+  };
+
   const handleBlur = (id: number) => {
     saveTask(id);
   };
@@ -26,7 +37,7 @@ const TaskTable = () => {
     <div className="size-full overflow-x-auto shadow-md sm:rounded-lg">
       <div className="m-2 flex items-center justify-between">
         <DatePicker />
-        <SearchBar />
+        <SearchBar tasks={tasks} onSearchResults={handleSearchResults} />
         <DarkThemeToggle />
       </div>
       <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
@@ -48,7 +59,7 @@ const TaskTable = () => {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((task) => (
+          {filteredTasks.map((task) => (
             <tr
               key={task.id}
               className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
@@ -63,7 +74,9 @@ const TaskTable = () => {
                   <label
                     htmlFor={`checkbox-table-search-${task.id}`}
                     className="sr-only"
-                  ></label>
+                  >
+                    checkbox
+                  </label>
                 </div>
               </td>
               <th

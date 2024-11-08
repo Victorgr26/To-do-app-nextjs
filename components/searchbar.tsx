@@ -1,5 +1,26 @@
-import React from "react";
-export function SearchBar() {
+"use client";
+import React, { useState } from "react";
+import { Task } from "../types";
+
+interface SearchBarProps {
+  tasks: Task[];
+  onSearchResults: (results: Task[]) => void;
+}
+
+export function SearchBar({ tasks, onSearchResults }: SearchBarProps) {
+  const [query, setQuery] = useState("");
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setQuery(value);
+    const filteredTasks = tasks.filter(
+      (task) =>
+        task.task.toLowerCase().includes(value.toLowerCase()) ||
+        task.id.toString().includes(value),
+    );
+    onSearchResults(filteredTasks);
+  };
+
   return (
     <form className="mx-1 w-1/2 max-w-lg">
       <label
@@ -27,18 +48,13 @@ export function SearchBar() {
           </svg>
         </div>
         <input
-          type="search"
+          type="text"
           id="default-search"
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-          placeholder="Search Mockups, Logos..."
-          required
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 py-2 pe-4 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
+          placeholder="Search tasks..."
+          value={query}
+          onChange={handleSearch}
         />
-        <button
-          type="submit"
-          className="absolute bottom-2.5 end-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Search
-        </button>
       </div>
     </form>
   );
