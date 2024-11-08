@@ -38,6 +38,11 @@ const TaskTable = () => {
       <div className="m-2 flex items-center justify-between">
         <DatePicker />
         <SearchBar tasks={tasks} onSearchResults={handleSearchResults} />
+        <div className="m-5 flex justify-end">
+          <Button size="sm" onClick={() => addTask("New task")} color="success">
+            Add new task +
+          </Button>
+        </div>
         <DarkThemeToggle />
       </div>
       <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
@@ -85,6 +90,7 @@ const TaskTable = () => {
               >
                 {editingTaskId === task.id ? (
                   <input
+                    className="block w-full rounded-md border border-gray-300 bg-gray-50 p-1.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
                     type="text"
                     value={editedTask}
                     onChange={(e) => setEditedTask(e.target.value)}
@@ -92,7 +98,10 @@ const TaskTable = () => {
                     autoFocus
                   />
                 ) : (
-                  <span onClick={() => editTask(task.id, task.task)}>
+                  <span
+                    className="block w-full cursor-pointer rounded-md bg-blue-100/50 p-1.5 hover:bg-blue-100 dark:bg-[#374151] dark:hover:bg-[#1f2937]"
+                    onClick={() => editTask(task.id, task.task)}
+                  >
                     {task.task}
                   </span>
                 )}
@@ -115,11 +124,6 @@ const TaskTable = () => {
           ))}
         </tbody>
       </table>
-      <div className="m-5 flex justify-end">
-        <Button size="xs" onClick={() => addTask("New task")} color="success">
-          Add new task
-        </Button>
-      </div>
     </div>
   );
 };
