@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "flowbite-react";
 import { SearchBar } from "./searchbar";
-import { DarkThemeToggle } from "flowbite-react";
 import useTasks from "../hooks/useTasks";
 import { Task } from "../types";
 
@@ -49,7 +48,6 @@ const TaskTable = () => {
             Add new task +
           </Button>
         </div>
-        <DarkThemeToggle />
       </div>
       <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
         <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">

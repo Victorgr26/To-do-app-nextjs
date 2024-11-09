@@ -1,13 +1,7 @@
 "use client";
 import { Sidebar } from "flowbite-react";
-import {
-  HiArrowSmRight,
-  HiChartPie,
-  HiInbox,
-  HiShoppingBag,
-  HiTable,
-  HiUser,
-} from "react-icons/hi";
+import { HiArrowSmRight, HiChartPie, HiInbox, HiTable } from "react-icons/hi";
+import { DarkThemeToggle } from "flowbite-react";
 
 export function SidebarNavigation() {
   return (
@@ -15,6 +9,9 @@ export function SidebarNavigation() {
       <Sidebar aria-label="Sidebar with multi-level dropdown example">
         <Sidebar.Items>
           <Sidebar.ItemGroup>
+            <Sidebar.Item>
+              <DarkThemeToggle />
+            </Sidebar.Item>
             <Sidebar.Item href="#" icon={HiChartPie}>
               Dashboard
             </Sidebar.Item>

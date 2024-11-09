@@ -1,7 +1,9 @@
+"use client";
 import { SidebarNavigation } from "../components/sidebar";
 import TaskTable from "../components/taskTable";
+import withAuth from "../hoc/withAuth";
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <main className="flex min-h-screen gap-2 dark:bg-gray-800">
       <div className="absolute right-0 top-0 m-4"></div>
@@ -11,4 +13,6 @@ export default function Home() {
       </div>
     </main>
   );
-}
+};
+
+export default withAuth(Home);
