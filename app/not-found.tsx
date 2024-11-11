@@ -1,25 +1,25 @@
 import Link from "next/link";
 import Image from "next/image";
-import notFoundImage from "../public/not-found.jpg"; // Adjust the path as necessary
 
 export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white">
       <Image
-        src={notFoundImage}
-        alt="Not Found"
-        width={500}
+        src="/_next/static/media/not-found.2f7633e5.jpg"
+        alt="Example Image"
+        width={400}
         height={300}
-        className="mb-4"
+        priority // Add this property for above-the-fold images
+        style={{ width: "auto", height: "auto" }} // Maintain aspect ratio
       />
       <h1 className="mb-4 text-4xl font-bold text-gray-800">
         404 - Page Not Found
       </h1>
-      <p className="mb-8 text-gray-800">
+      <h2 className="mb-2 text-gray-800">
         Sorry, the page you are looking for does not exist.
-      </p>
-      <Link href="/" className="text-yellow-300 hover:underline">
-        Go back to Home
+      </h2>
+      <Link href="/" className="text-lg text-yellow-300 hover:underline">
+        Go back to Home.
       </Link>
     </div>
   );
