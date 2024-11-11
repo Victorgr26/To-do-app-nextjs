@@ -5,8 +5,8 @@ export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white">
       <Image
-        src="/_next/static/media/not-found.2f7633e5.jpg"
-        alt="Example Image"
+        src="/404.jpg"
+        alt="404 - Page Not Found"
         width={400}
         height={300}
         priority // Add this property for above-the-fold images
