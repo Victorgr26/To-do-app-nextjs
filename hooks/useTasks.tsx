@@ -14,7 +14,7 @@ const useTasks = () => {
         throw new Error(`Error fetching tasks: ${errorText}`);
       }
       const data = await response.json();
-      setTasks(data.sort((a: Task, b: Task) => a.id - b.id)); // Sort tasks by ID
+      setTasks(data.sort((a: Task, b: Task) => b.id - a.id)); // Sort tasks by ID in descending order
     } catch (error) {
       console.error(error);
     }
