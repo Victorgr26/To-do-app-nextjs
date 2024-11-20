@@ -1,5 +1,5 @@
 "use client";
-import { SidebarNavigation } from "../components/sidebar";
+import SidebarNavigation from "../components/sidebar";
 import TaskTable from "../components/taskTable";
 import withAuth from "../hoc/withAuth";
 

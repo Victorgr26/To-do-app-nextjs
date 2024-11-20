@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
-export function SignUpForm() {
+const SignUpForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -29,34 +29,29 @@ export function SignUpForm() {
         onSubmit={handleSubmit}
       >
         <h1 className="mb-3 text-center text-2xl">Sign Up</h1>
-
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="email2" value="Your email" />
+            <Label htmlFor="email1" value="Your email" />
           </div>
           <TextInput
-            id="email2"
+            id="email1"
             type="email"
             placeholder="name@gmail.com"
             required
-            shadow
             autoComplete="email"
-            aria-autocomplete="list"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="password2" value="Your password" />
+            <Label htmlFor="password1" value="Your password" />
           </div>
           <TextInput
-            id="password2"
+            id="password1"
             type="password"
             required
             autoComplete="new-password"
-            aria-autocomplete="list"
-            shadow
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -70,15 +65,15 @@ export function SignUpForm() {
             type="password"
             required
             autoComplete="new-password"
-            aria-autocomplete="list"
-            shadow
             value={repeatPassword}
             onChange={(e) => setRepeatPassword(e.target.value)}
           />
         </div>
-        <div className="flex items-center gap-2">
+        {error && <p className="text-red-500">{error}</p>}
+        <Button type="submit">Sign Up</Button>
+        <div>
           <Label htmlFor="agree" className="flex">
-            I have an account.&nbsp;
+            Already have an account?&nbsp;
             <Link
               href="/signin"
               className="text-cyan-600 hover:underline dark:text-cyan-500"
@@ -87,9 +82,9 @@ export function SignUpForm() {
             </Link>
           </Label>
         </div>
-        {error && <p className="text-red-500">{error}</p>}
-        <Button type="submit">Register new account</Button>
       </form>
     </div>
   );
-}
+};
+
+export default SignUpForm;

@@ -1,12 +1,15 @@
-import React from "react";
-import { SignUpForm } from "@/components/signupForm";
+import React, { Suspense, lazy } from "react";
 import { DarkThemeToggle } from "flowbite-react";
+
+const SignUpForm = lazy(() => import("@/components/signupForm"));
 
 const SignUp: React.FC = () => {
   return (
     <div className="min-h-screen dark:bg-gray-800 dark:text-white">
       <DarkThemeToggle />
-      <SignUpForm />
+      <Suspense fallback={<div>Loading SignUpForm...</div>}>
+        <SignUpForm />
+      </Suspense>
     </div>
   );
 };

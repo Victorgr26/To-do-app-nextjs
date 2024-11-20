@@ -14,7 +14,7 @@ const useTasks = () => {
         throw new Error(`Error fetching tasks: ${errorText}`);
       }
       const data = await response.json();
-      setTasks(data);
+      setTasks(data.sort((a: Task, b: Task) => a.id - b.id)); // Sort tasks by ID
     } catch (error) {
       console.error(error);
     }
@@ -77,7 +77,6 @@ const useTasks = () => {
       setTasks((prevTasks) =>
         prevTasks.map((task) => (task.id === id ? updatedTask : task)),
       );
-      await fetchTasks();
     } catch (error) {
       console.error(error);
     }

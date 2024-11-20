@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
-export function SignInForm() {
+const SignInForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, error } = useAuth();
@@ -65,4 +65,6 @@ export function SignInForm() {
       </form>
     </div>
   );
-}
+};
+
+export default SignInForm;

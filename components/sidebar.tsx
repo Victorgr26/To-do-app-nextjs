@@ -3,7 +3,7 @@ import { Sidebar } from "flowbite-react";
 import { HiArrowSmRight, HiChartPie, HiInbox, HiTable } from "react-icons/hi";
 import { DarkThemeToggle } from "flowbite-react";
 
-export function SidebarNavigation() {
+const SidebarNavigation: React.FC = () => {
   return (
     <div className="fixed left-0 top-0 h-full w-64">
       <Sidebar aria-label="Sidebar with multi-level dropdown example">
@@ -13,7 +13,7 @@ export function SidebarNavigation() {
               <DarkThemeToggle />
             </Sidebar.Item>
             <Sidebar.Item href="#" icon={HiChartPie}>
-              Dashboard
+              Home
             </Sidebar.Item>
             <Sidebar.Item href="/404" icon={HiInbox}>
               404
@@ -29,4 +29,6 @@ export function SidebarNavigation() {
       </Sidebar>
     </div>
   );
-}
+};
+
+export default SidebarNavigation;
